@@ -1,0 +1,38 @@
+{
+  "name": "Extjs_Skeleton",
+  "version": "0.0.3",
+  "description": "extjs application skeleton",
+  "repository": "git@bitbucket.org:limesoft/extjs-skeleton.git",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Limesoft",
+      "email": "orgil@limesoft.mn"
+    }
+  ],
+  "devDependencies": {
+    "matchdep":"*",
+    "grunt": "*",
+    "grunt-shell": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-stylus": "*",
+    "grunt-contrib-connect":"*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-connect-proxy": "*",
+    "grunt-contrib-copy": "*",
+    "connect-livereload": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-jshint":"*",
+    "jshint-stylish": "*",
+    "grunt-jsduck": "*",
+    "grunt-jscs": "*",
+    "grunt-exec": "*",
+    "grunt-notify": "*",
+    "grunt-filerev": "*",
+    "grunt-bump": "git://github.com/vojtajina/grunt-bump.git#master",
+    "grunt-userev": "*"
+  }
+}

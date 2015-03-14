@@ -1,0 +1,6 @@
+{
+  "name" : "nomin",
+  "devDependencies" : {
+    "swagger-ui": "*"
+  }
+}
