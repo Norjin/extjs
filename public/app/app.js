@@ -44,6 +44,21 @@ Ext.define('App.model.MainAuthor', {
   hasMany: {model: 'App.model.Main', name: 'books'}
 });
 
+Ext.define('App.model.Person', {
+  extend: 'Ext.data.Model',
+  idProperty: 'id',
+  schema: {
+    namespace: 'App.model'
+  },
+  fields: ['id', 'fname', 'lname', 'age',
+  { name: 'name', type: 'string',
+    calculate: function(v){
+      var val = (v.fname && v.lname) ? v.fname + ' ' + v.lname : v.fname || v.lname;
+      return val;
+    }
+  }]
+});
+
 Ext.define('App.store.Author',  {
   extend: 'Ext.data.Store',
   model:  'App.model.MainAuthor',
@@ -522,293 +537,758 @@ Ext.define('App.view.inserta.InsertModel', {
  *
  */
 Ext.define('App.view.main.Main', {
-  extend: 'Ext.container.Container',
-  xtype: 'app-main',
+  extend: 'Ext.panel.Panel',
+  alias: 'widget.main',
   controller: 'main',
   viewModel: {
     type: 'main'
   },
-
   layout: {
-    type: 'border'
+    type: 'hbox',
+    align: 'stretch'
   },
-
-  items: [{
-    xtype: 'panel',
-    bind: {
-      title: '{name}'
-    },
-    region: 'east',
-    width: 400,
-    items: [{
-      /** @property xtype
-       * Зүүн талд байрлах хүснэгт
-       * @markdown {@link App.view.form.smallGrid Grid} дуудаж байна.
-       */
-      xtype: 'app.view.smallGrid'
-    },
+  defaults: {
+    flex: 1
+  },
+  items: [
     {
-      /** @cfg tbar
-       *энэ товчин дээр дарахад
-       *@event bought
-       *@markdown {@link App.view.main.MainController#bought энэ method} дуудагдана.
-       */
-      tbar:[{
-        text: 'Зарагдсан >> ',
-        handler: 'bought'
-      }]
-    }]
-  },
-  {
-    region: 'west',
-    xtype: 'panel',
-    bodyPadding: 50,
-    collapsible: true,
-    collapsed: true,
-    title: 'Authors',
-    width: 350,
-    items: [{
-      xtype: 'combobox',
-      name: 'author',
-      store: 'Author',
-      fieldLabel: 'Author:',
-      displayField: 'name',
-      valueField: 'name'
-    },
-    {
-      xtype: 'button',
-      name: 'insert',
-      bodyPadding: 50,
-      scale: 'large',
-      text: 'Insert',
-      /** @method onInsertButtonClick
-       * шинээр зохиолч нэмдэг товч
-       *{@link app.view.main.MainController#onInsertClick insertauthor}
-       */
-      handler: 'onInsertClick'
-    }]
-  },
-  {
-    region: 'center',
-    xtype: 'panel',
-    items:[
-      {
-
-        region: 'north',
-        bodyPadding: 30,
-        layout: {
-          type: 'hbox',
-          align: 'stretch'
-        },
-        tbar: [{
-          text: '<b>Ном шинээр нэмэх</b>',
-          width: '190',
-          /**
-           * @event addBook
-           * хэрэглэгч **ном** **шинээр** **нэмэх** гэсэн товчин дээр дарахад дуудагдана.
-           * {@link App.view.main.MainController#addBook addbook} method
-           */
-          handler: 'addBook'
-        }], //eo tbar
-        items:[
-          {
-          /** @cfg xtype
-           * Хайлтын цонхыг гаргаж байна.
-           */
-            xtype: 'app.north.search',
-            layout: 'hbox'
-          }
-        ]
+      xtype: 'container',
+      layout: {
+        type: 'vbox',
+        align: 'stretch'
       },
-      {
-        region: 'center',
-        xtype: 'panel',
-        items: [
-          {
-          /** @cfg xtype
-           *@markdown {@link App.view.grid.MainGrid том хүснэгт} дуудаж байна.
-           */
-            xtype: 'grid.mainGrid',
-          }]
-        }] //eo region center item
-      }] //eo Panel
-    }); //eof
+      defaults: {
+        flex: 1,
+        margin: 5,
+        border: true
+      },
+      items: [{
+        xtype: 'persongrid',
+        glyph: 0xf0ce
+      }, {
+        title: 'DataView',
+        autoScroll: true,
+        glyph: 0xf009,
+        bind: {
+          title: '<b>{currentPerson.name}</b>'
+        },
+        items: [{
+          xtype: 'personview'
+        }]
+      }]
+  },
+  {
+    xtype: 'container',
+    layout: {
+      type: 'vbox',
+      align: 'stretch'
+    },
+    defaults: {
+      flex: 1,
+      margin: 5,
+      border: true
+    },
+    items: [{
+      title: 'Form',
+      xtype: 'personform'
+    },
+    {
+      title: 'Data Panel',
+      xtype: 'personpanel'
+    }]
+  }]
+});
+// Ext.define('App.view.main.Main', {
+//   extend: 'Ext.container.Container',
+//   xtype: 'main',
+//   controller: 'personmain',
+//   viewModel: {
+//     type: 'main'
+//   },
+//
+//   layout: {
+//     type: 'hbox',
+//     align: 'stretch'
+//     // type: 'border'
+//   },
+//   defaults: {
+//     flex: 1
+//   },
+//
+//   items: [
+//     {
+//       xtype: 'container',
+//       layout: {
+//         type: 'vbox',
+//         align: 'stretch'
+//       },
+//       defaults: {
+//         flex: 1,
+//         margin: 5,
+//         border: true
+//       },
+//       items: [{
+//         xtype: 'persongrid',
+//         glyph: 0xf0ce
+//       }, {
+//         title: 'DataView',
+//         autoScroll: true,
+//         glyph: 0xf009,
+//         bind: {
+//           title: '<b>{currentPerson.name}</b>'
+//         },
+//         items: [{
+//           xtype: 'personview'
+//         }]
+//       }]
+//   },
+//   {
+//     xtype: 'container',
+//     layout: {
+//       type: 'vbox',
+//       align: 'stretch'
+//     },
+//     defaults: {
+//       flex: 1,
+//       margin: 5,
+//       border: true
+//     },
+//     items: [{
+//       title: 'Form',
+//       xtype: 'personform'
+//     },
+//     {
+//       title: 'Data Panel',
+//       xtype: 'personpanel'
+//     }]
+//   }]
+//   // items: [{
+//   //   xtype: 'panel',
+//   //   bind: {
+//   //     title: '{name}'
+//   //   },
+//   //   region: 'east',
+//   //   width: 400,
+//   //   items: [{
+//   //     #<{(|* @property xtype
+//   //      * Зүүн талд байрлах хүснэгт
+//   //      * @markdown {@link App.view.form.smallGrid Grid} дуудаж байна.
+//   //      |)}>#
+//   //     xtype: 'app.view.smallGrid'
+//   //   },
+//   //   {
+//   //     #<{(|* @cfg tbar
+//   //      *энэ товчин дээр дарахад
+//   //      *@event bought
+//   //      *@markdown {@link App.view.main.MainController#bought энэ method} дуудагдана.
+//   //      |)}>#
+//   //     tbar:[{
+//   //       text: 'Зарагдсан >> ',
+//   //       handler: 'bought'
+//   //     }]
+//   //   }]
+//   // },
+//   // {
+//   //   region: 'west',
+//   //   xtype: 'panel',
+//   //   bodyPadding: 50,
+//   //   collapsible: true,
+//   //   collapsed: true,
+//   //   title: 'Authors',
+//   //   width: 350,
+//   //   items: [{
+//   //     xtype: 'combobox',
+//   //     name: 'author',
+//   //     store: 'Author',
+//   //     fieldLabel: 'Author:',
+//   //     displayField: 'name',
+//   //     valueField: 'name'
+//   //   },
+//   //   {
+//   //     xtype: 'button',
+//   //     name: 'insert',
+//   //     bodyPadding: 50,
+//   //     scale: 'large',
+//   //     text: 'Insert',
+//   //     #<{(|* @method onInsertButtonClick
+//   //      * шинээр зохиолч нэмдэг товч
+//   //      *{@link app.view.main.MainController#onInsertClick insertauthor}
+//   //      |)}>#
+//   //     handler: 'onInsertClick'
+//   //   }]
+//   // },
+//   // {
+//   //   region: 'center',
+//   //   xtype: 'panel',
+//   //   items:[
+//   //     {
+//   //
+//   //       region: 'north',
+//   //       bodyPadding: 30,
+//   //       layout: {
+//   //         type: 'hbox',
+//   //         align: 'stretch'
+//   //       },
+//   //       tbar: [{
+//   //         text: '<b>Ном шинээр нэмэх</b>',
+//   //         width: '190',
+//   //         #<{(|*
+//   //          * @event addBook
+//   //          * хэрэглэгч **ном** **шинээр** **нэмэх** гэсэн товчин дээр дарахад дуудагдана.
+//   //          * {@link App.view.main.MainController#addBook addbook} method
+//   //          |)}>#
+//   //         handler: 'addBook'
+//   //       }], //eo tbar
+//   //       items:[
+//   //         {
+//   //         #<{(|* @cfg xtype
+//   //          * Хайлтын цонхыг гаргаж байна.
+//   //          |)}>#
+//   //           xtype: 'app.north.search',
+//   //           layout: 'hbox'
+//   //         }
+//   //       ]
+//   //     },
+//   //     {
+//   //       region: 'center',
+//   //       xtype: 'panel',
+//   //       items: [
+//   //         {
+//   //         #<{(|* @cfg xtype
+//   //          *@markdown {@link App.view.grid.MainGrid том хүснэгт} дуудаж байна.
+//   //          |)}>#
+//   //           xtype: 'grid.mainGrid',
+//   //         }]
+//   //       }] //eo region center item
+//   //     }] //eo Panel
+//     }); //eof
 
-/**
- * This class is the main view for the application. It is specified in app.js as the
- * "autoCreateViewport" property. That setting automatically applies the "viewport"
- * plugin to promote that instance of this class to the body element.
- *
- *
- */
 Ext.define('App.view.main.MainController', {
   extend: 'Ext.app.ViewController',
-
-  requires: [
-    'Ext.MessageBox'
-  ],
-
   alias: 'controller.main',
-  stores: ['Book', 'Author', 'List'],
-    /**
-     * @method {@link App.view.inserta.insert шинээр зохиолч нэмдэг} форм үүсгэн харуулдаг.
-     */
-  onInsertClick: function() {
-    Ext.create('App.view.inserta.Insert').show();
-  },
-  /**
-   * @method onEditClick
-   * form дээр бөглөгдсөн байх өгөгдөлүүд
-   */
-  onEditClick:  function(grid, rowIndex, colIndex, items, e, record) {
-    var win = Ext.create('App.view.edit.Edit');
-    win.show();
-    win.loadRecord(record);
-  },
-  /**
-   * @method onDeleteButtonClick
-   *Устгах товчин дээр дарахад confirm box гарч ирэн тухайн мөрийг устгах эсэхийг баталгаажуулна.
-   */
-  deleteBtn:  function(grid, rowIndex, colIndex, item, e, record) {
-    Ext.Msg.show({
-      title:'Are you sure?',
-      message: 'Delete ?',
-      buttons: Ext.Msg.YESNO,
-      icon: Ext.Msg.QUESTION,
-      fn: function(btn) {
-        if (btn === 'yes') {
-          grid.store.remove(record);
-          grid.store.sync();
-        } else if (btn === 'no') {
-          console.log('No pressed');
-        } else {
-        console.log('Cancel pressed');}
+  onFormButton: function(btn) {
+    var person = this.getViewModel().get('currentPerson'),
+    action = btn.getItemId();
+    if(person && person.isModel){
+      if('reject' === action){
+        person.reject();
       }
-    });
-  },
-  /**
-   * @method rowclick
-   * хэрэглэгчийн дарсан мөрөн дэх рэкордын боломжит тоог нэгээр багасгаж зүүн талын хүснэгтэд нэмдэг.
-   * @property availnum checks whether this row has been added or not before
-   */
-  rowclick: function(table, rec) {
-    var listGrid = Ext.getCmp('listGrid');
-    var exist = listGrid.store.findExact('bookTitle', rec.data.bookTitle);
-    var availnum = rec.get('number');
-    if (availnum > 0) {
-      if (exist < 0) {
-        rec.set('selnumber', 1);
-        rec.set('sumPrice', rec.get('price'));
-        availnum = availnum - rec.get('selnumber');
-        rec.set('number', availnum);
-        listGrid.getStore().insert(0, rec);
-        listGrid.store.sync();
+      if('commit' === action) {
+        person.commit();
+        // Ext bug workaround
+        // dirty flag is not refreshed without this
+        person.reject();
       }
-      else {
-        var shirheg = rec.get('selnumber');
-        shirheg++;
-        var price = rec.get('price');
-        price *= shirheg;
-        rec.set('selnumber', shirheg);
-        rec.set('sumPrice', price);
-        availnum-- ;
-        rec.set('number', availnum);
-        listGrid.store.sync();
-      }
-      console.log(rec.get('number'));
-    }
-    else {
-      alert('Байхгүй номыг зарах боломжгүйштэээ');
     }
   },
-  /**
-   * @method bought
-   * listgrid ээс утгуудаа аваад {@link Ext.Ajax#request} ашиглан өгөдөлүүдээ сэрвэр рүү явуулдаг.
-   */
-  bought: function() {
-    var listGrid = Ext.getCmp('listGrid');
-    var store = listGrid.getStore();
-    store.each(function(record) {
-      console.log(record.get('id'));
-      Ext.Ajax.request({
-        method: 'PUT',
-        url: '/v1/books',
-        useDefaultXhrHeader: true,
-        params:{
-          REC_ID: record.get('id'),
-          REC_SELNUM: record.get('selnumber')
-        },
-        success: function(response) {
-          console.log(response.responseText);
-          store.remove(record);
-          store.sync({
-            success: function() {
-              var mainGrid = Ext.getCmp('mainGrid');
-              var mainStore = mainGrid.getStore();
-              mainStore.each(function(record) {
-                var eachAvailNum = record.get('number');
-                if (eachAvailNum <= 0) {
-                  mainStore.remove(record);
-                }
-                mainStore.sync();
-              }); //eo mainstore.each
-            } // eo success
-          }); //eo store.sync
-        }
-      }); //eo ajax request
-    }); //eo listGrid store.each
-  }, //eo bounght function
+  onGridButton: function(btn){
+    var action = btn.getItemId(), vm = this.getViewModel(), store = vm.getStore('persons'), record;
+    if('add' === action){
+      debugger;
+      record = store.insert(0, {})[0];
+      vm.set('currentPerson', record);
+    }
+    if('reject' === action){
+      store.rejectChanges()
+    }
+    if('commit' === action){
+      store.commitChanges();
 
-  /**
-   * @method addBook
-   * this  method creates {@link App.view.add.Add AddbookForm} Window
-   */
-  addBook: function() {
-    var formWindow = Ext.create('App.view.add.Add');
-    formWindow.show();
-    formWindow.center();
-  },
-  /**
-   * @method addBookSaveBtn
-   * gets form records and saves values
-   */
-  addBookSaveBtn: function() {
-    var form = this.lookupReference('addForm');
-    //var form = this.up('form').getForm();
-    if (form.isValid()) {
-      /*form.submit({
-success:function(form, action) {*/
-      var model = Ext.create('bookModel', form.getValues());
-      var grid = Ext.getCmp('mainGrid');
-      grid.store.insert(0, model);
-      //store.sync();
-      grid.store.sync();
-      //Ext.getCmp('addform').close();
-      form.close();
-      /*},
-failure: function(form, action) {
-Ext.Msg.alert('Failed', action.result.msg);
-}
-});*/
-    } //eo if
+      // Ext bug workaround
+      // dirty flag is not refreshed without this
+      record = vm.get('currentPerson');
+      record.commit();
+      record.reject();
+    }
   }
-
-}); //eof
+});
+// #<{(|*
+//  * This class is the main view for the application. It is specified in app.js as the
+//  * "autoCreateViewport" property. That setting automatically applies the "viewport"
+//  * plugin to promote that instance of this class to the body element.
+//  *
+//  *
+//  |)}>#
+// Ext.define('App.view.main.MainController', {
+//   extend: 'Ext.app.ViewController',
+//
+//   requires: [
+//     'Ext.MessageBox'
+//   ],
+//
+//   alias: 'controller.main',
+//   stores: ['Book', 'Author', 'List'],
+//     #<{(|*
+//      * @method {@link App.view.inserta.insert шинээр зохиолч нэмдэг} форм үүсгэн харуулдаг.
+//      |)}>#
+//   onInsertClick: function() {
+//     Ext.create('App.view.inserta.Insert').show();
+//   },
+//   #<{(|*
+//    * @method onEditClick
+//    * form дээр бөглөгдсөн байх өгөгдөлүүд
+//    |)}>#
+//   onEditClick:  function(grid, rowIndex, colIndex, items, e, record) {
+//     var win = Ext.create('App.view.edit.Edit');
+//     win.show();
+//     win.loadRecord(record);
+//   },
+//   #<{(|*
+//    * @method onDeleteButtonClick
+//    *Устгах товчин дээр дарахад confirm box гарч ирэн тухайн мөрийг устгах эсэхийг баталгаажуулна.
+//    |)}>#
+//   deleteBtn:  function(grid, rowIndex, colIndex, item, e, record) {
+//     Ext.Msg.show({
+//       title:'Are you sure?',
+//       message: 'Delete ?',
+//       buttons: Ext.Msg.YESNO,
+//       icon: Ext.Msg.QUESTION,
+//       fn: function(btn) {
+//         if (btn === 'yes') {
+//           grid.store.remove(record);
+//           grid.store.sync();
+//         } else if (btn === 'no') {
+//           console.log('No pressed');
+//         } else {
+//         console.log('Cancel pressed');}
+//       }
+//     });
+//   },
+//   #<{(|*
+//    * @method rowclick
+//    * хэрэглэгчийн дарсан мөрөн дэх рэкордын боломжит тоог нэгээр багасгаж зүүн талын хүснэгтэд нэмдэг.
+//    * @property availnum checks whether this row has been added or not before
+//    |)}>#
+//   rowclick: function(table, rec) {
+//     var listGrid = Ext.getCmp('listGrid');
+//     var exist = listGrid.store.findExact('bookTitle', rec.data.bookTitle);
+//     var availnum = rec.get('number');
+//     if (availnum > 0) {
+//       if (exist < 0) {
+//         rec.set('selnumber', 1);
+//         rec.set('sumPrice', rec.get('price'));
+//         availnum = availnum - rec.get('selnumber');
+//         rec.set('number', availnum);
+//         listGrid.getStore().insert(0, rec);
+//         listGrid.store.sync();
+//       }
+//       else {
+//         var shirheg = rec.get('selnumber');
+//         shirheg++;
+//         var price = rec.get('price');
+//         price *= shirheg;
+//         rec.set('selnumber', shirheg);
+//         rec.set('sumPrice', price);
+//         availnum-- ;
+//         rec.set('number', availnum);
+//         listGrid.store.sync();
+//       }
+//       console.log(rec.get('number'));
+//     }
+//     else {
+//       alert('Байхгүй номыг зарах боломжгүйштэээ');
+//     }
+//   },
+//   #<{(|*
+//    * @method bought
+//    * listgrid ээс утгуудаа аваад {@link Ext.Ajax#request} ашиглан өгөдөлүүдээ сэрвэр рүү явуулдаг.
+//    |)}>#
+//   bought: function() {
+//     var listGrid = Ext.getCmp('listGrid');
+//     var store = listGrid.getStore();
+//     store.each(function(record) {
+//       console.log(record.get('id'));
+//       Ext.Ajax.request({
+//         method: 'PUT',
+//         url: '/v1/books',
+//         useDefaultXhrHeader: true,
+//         params:{
+//           REC_ID: record.get('id'),
+//           REC_SELNUM: record.get('selnumber')
+//         },
+//         success: function(response) {
+//           console.log(response.responseText);
+//           store.remove(record);
+//           store.sync({
+//             success: function() {
+//               var mainGrid = Ext.getCmp('mainGrid');
+//               var mainStore = mainGrid.getStore();
+//               mainStore.each(function(record) {
+//                 var eachAvailNum = record.get('number');
+//                 if (eachAvailNum <= 0) {
+//                   mainStore.remove(record);
+//                 }
+//                 mainStore.sync();
+//               }); //eo mainstore.each
+//             } // eo success
+//           }); //eo store.sync
+//         }
+//       }); //eo ajax request
+//     }); //eo listGrid store.each
+//   }, //eo bounght function
+//
+//   #<{(|*
+//    * @method addBook
+//    * this  method creates {@link App.view.add.Add AddbookForm} Window
+//    |)}>#
+//   addBook: function() {
+//     var formWindow = Ext.create('App.view.add.Add');
+//     formWindow.show();
+//     formWindow.center();
+//   },
+//   #<{(|*
+//    * @method addBookSaveBtn
+//    * gets form records and saves values
+//    |)}>#
+//   addBookSaveBtn: function() {
+//     var form = this.lookupReference('addForm');
+//     //var form = this.up('form').getForm();
+//     if (form.isValid()) {
+//       #<{(|form.submit({
+// success:function(form, action) {|)}>#
+//       var model = Ext.create('bookModel', form.getValues());
+//       var grid = Ext.getCmp('mainGrid');
+//       grid.store.insert(0, model);
+//       //store.sync();
+//       grid.store.sync();
+//       //Ext.getCmp('addform').close();
+//       form.close();
+//       #<{(|},
+// failure: function(form, action) {
+// Ext.Msg.alert('Failed', action.result.msg);
+// }
+// });|)}>#
+//     } //eo if
+//   }
+//
+// }); //eof
 
 Ext.define('App.view.main.MainModel', {
   extend: 'Ext.app.ViewModel',
-
   alias: 'viewmodel.main',
-/*  stores: {
-    books:{
-      model: 'app.model.Main'
-    }
-  }, //eo stores
-*/
   data: {
-    name: 'Номнууд'
+    currentPerson: null
+  },
+  formulas: {
+    dirty: {
+      bind: {
+        bindTo: '{currentPerson}',
+        deep: true
+      },
+      get: function(data){
+        return data ? data.dirty : false;
+      }
+    },
+    storeDirty: {
+      bind: {
+        bindTo: '{currentPerson}',
+        deep: true
+      },
+      get: function() {
+        return this.getStore('persons').isDirty()
+      }
+    }
+  }, //eo formulas
+  stores: {
+    persons: {
+      model: 'Person',
+      data: [
+        {id: 1, fname: 'John', lname: 'Lennon', age: 74},
+        {id: 2, fname: 'Paul', lname: 'McCartney', age: 72},
+        {id: 3, fname: 'George', lname: 'Harrison', age: 71},
+        {id: 4, fname: 'Ringo', lname: 'Starr', age: 74}
+      ],
+      isDirty: function() {
+        var dirty = this.getModifiedRecords().length;
+        dirty = dirty || this.getNewRecords().length;
+        dirty = dirty || this.getRemovedRecords().length;
+        return !!dirty;
+      }
+    },
+    personsChained: {
+      source: '{persons}'
+    }
   }
-  //TODO - add data, formulas and/or methods to support your view
+});
+// Ext.define('App.view.main.MainModel', {
+//   extend: 'Ext.app.ViewModel',
+//
+//   alias: 'viewmodel.main',
+//   data: {
+//     currentPerson: null
+//   },
+//   formulas: {
+//     dirty: {
+//       bind: {
+//         bindTo: '{currentPerson}',
+//         deep: true
+//       },
+//       get: function(data){
+//         return data ? data.dirty : false;
+//       }
+//     },
+//     storeDirty: {
+//       bind: {
+//         bindTo: '{currentPerson}',
+//         deep: true
+//       },
+//       get: function() {
+//         return this.getStore('persons').isDirty()
+//       }
+//     }
+//   }, //eo formulas
+//   stores: {
+//     persons: {
+//       model: 'SmartCity.model.Person',
+//       // proxy: {
+//       //   type: 'memory',
+//       //   reader: {
+//       //     type: 'json'
+//       //   }
+//       // },
+//       data: [
+//         {id: 1, fname: 'John', lname: 'Lennon', age: 74},
+//         {id: 2, fname: 'Paul', lname: 'McCartney', age: 72},
+//         {id: 3, fname: 'George', lname: 'Harrison', age: 71},
+//         {id: 4, fname: 'Ringo', lname: 'Starr', age: 74}
+//       ],
+//       isDirty: function() {
+//         var dirty = this.getModifiedRecords().length;
+//         dirty = dirty || this.getNewRecords().length;
+//         dirty = dirty || this.getRemovedRecords().length;
+//         return !!dirty;
+//       }
+//     },
+//     personsChained: {
+//       sources: '{persons}'
+//     }
+//   }
+// });
+
+Ext.define('App.view.person.PersonForm', {
+  extend: 'Ext.form.Panel',
+  xtype: 'personform',
+  config: {
+    currentPerson: null
+  },
+  bind: {
+    currentPerson: '{currentPerson}',
+    title: '<b>{currentPerson.name}</b>'
+  },
+  header: {
+    title: 'Person Form',
+    padding: '4 9 5 9',
+    items: [
+      {
+        text: 'Reject',
+        xtype: 'button',
+        itemId: 'reject',
+        handler: 'onFormButton',
+        // disabled until currentPerson dirty
+        disabled: true,
+        bind: {
+          disabled: '{!dirty}'
+        }
+      },{
+        text: 'Commit',
+        xtype: 'button',
+        itemId: 'commit',
+        handler: 'onFormButton',
+        margin: '0 0 0 5',
+        disabled: true,
+        bind: {
+          disabled: '{!dirty}'
+        }
+      }
+    ]
+
+  },
+  bodyPadding: 10,
+  defaultType: 'textfield',
+  defaults: {
+    anchor: '100%',
+    selectOnFocus: true
+  },
+  items: [
+    {
+      fieldLabel: 'First Name',
+      disabled: true,
+      bind: {
+        value: '{currentPerson.fname}',
+        disabled: '{!currentPerson}'
+      }
+    }, {
+      fieldLabel: 'Last Name',
+      disabled: true,
+      bind: {
+        value: '{currentPerson.lname}',
+        disabled: '{!currentPerson}',
+      }
+    }, {
+      fieldLabel: 'Age',
+      xtype: 'numberfield',
+      disabled: true,
+      bind: {
+        value: '{currentPerson.age}',
+        disabled: '{!currentPerson}'
+      }
+    }
+  ]
+});
+
+Ext.define('App.view.person.PersonGrid', {
+  extend: 'Ext.grid.Panel',
+  xtype: 'persongrid',
+  publishes: ['currentPerson'],
+  bind: {
+    currentPerson: '{currentPerson}',
+    store: '{persons}',
+    title: '<b>{currentPerson.name}</b>'
+  },
+  config: {
+    currentPerson: null
+  },
+  //update selection when currentPerson changes
+  updateCurrentPerson: function(current, previous){
+    var sm = this.getSelectionModel();
+    if(current){
+      sm.select(current);
+    }
+    if(previous){
+      sm.deselect(previous);
+    }
+  },
+  listeners: {
+    scope: 'this',
+    select: 'onPersonSelect'
+  },
+  onPersonSelect: function(grid, person){
+    this.setCurrentPerson(person);
+  },
+  plugins: [{
+    ptype: 'cellediting',
+    clicksToEdit: 2,
+    pluginId: 'cellediting'
+  }],
+  header: {
+    title: 'Person Grid',
+    padding: '4 9 5 9',
+    items: [{
+      text: 'New',
+      xtype: 'button',
+      itemId: 'add',
+      handler: 'onGridButton'
+    }, {
+      tooltip: 'Reject All',
+      text: 'Reject All',
+      xtype: 'button',
+      itemId: 'reject',
+      handler: 'onGridButton',
+      disabled: true,
+      bind: {
+        disabled: '{!storeDirty}'
+      },
+      margin: '0 0 0 5'
+    },{
+      tooltip: 'Commit All',
+      text: 'Commit All',
+      xtype: 'button',
+      itemId: 'commit',
+      handler: 'onGridButton',
+      disabled: true,
+      bind: {
+        disabled: '{!storeDirty}'
+      },
+      margin: '0 0 0 5'
+    }]
+  }, // eo header
+  columns: [
+    {
+      text: 'First Name',
+      dataIndex: 'fname',
+      editor: {
+        xtype: 'textfield',
+        bind: '{currentPerson.fname}'
+      }
+    }, {
+      text: 'Last Name',
+      flex: 1,
+      dataIndex: 'lname',
+      editor: {
+        xtype: 'textfield',
+        bind: '{currentPerson.lname}'
+      }
+    }, {
+      text: 'Age',
+      dataIndex: 'age',
+      width: 120,
+      editor: {
+        xtype: 'numberfield',
+        bind: '{currentPerson.age}'
+      }
+    }
+  ] // eo columns
+
+});
+
+Ext.define('App.view.person.PersonPanel', {
+  extend: 'Ext.panel.Panel',
+  alias: 'widget.personpanel',
+  bodyPadding: 10,
+  bind: {
+    data:{
+      bindTo: '{currentPerson}',
+      deep: true
+    },
+    title: '<b>{currentPerson.lname}</b>'
+  },
+  tpl: [
+    '<table>',
+    '<tr><td>First Name:</td><td><strong>{fname}</strong></td></tr>',
+    '<tr><td>Last Name:</td><td><strong>{lname}</strong></td></tr>',
+    '<tr><td>Age:</td><td><strong>{age}</strong></td></tr>',
+    '</table>'
+  ]
+});
+
+Ext.define('App.view.person.PersonView', {
+  extend: 'Ext.view.View',
+  xtype: 'personview',
+  publishes: ['currentPerson'],
+  bind: {
+    store: '{personsChained}',
+    currentPerson: '{currentPerson}'
+  },
+  config: {
+    currentPerson: null
+  },
+  updateCurrentPerson: function(current, previous) {
+    var sm = this.getSelectionModel();
+    if(current) {
+      sm.select(current);
+    }
+    if(previous){
+      sm.deselect(previous);
+    }
+  },
+  listeners: {
+    scope: 'this',
+    select: 'onPersonSelect',
+    beforecontainerclick: function(){
+      return false;
+    }
+  },
+  //select event handler
+  onPersonSelect: function(view, person){
+    this.setCurrentPerson(person);
+  },
+  itemSelector: 'div.person-item',
+  selectedItemCls: 'selected',
+  itemTpl: [
+    '<div class="person-item">',
+    '<strong>{fname} {lname}</strong> ({age})',
+    '</div>'
+  ].join('')
 });
 
 /**
@@ -891,13 +1371,16 @@ Ext.application({
   name: 'App',
 
   autoCreateViewport: 'App.view.main.Main',
-  stores: [
-
-    'Book',
-    'Author',
-    'List'
-      // TODO: add global / shared stores here
-  ],
+  // stores: [
+  //
+  //   'Book',
+  //   'Author',
+  //   'List'
+  //     // TODO: add global / shared stores here
+  // ],
+  // models: [
+  //   'Person'
+  // ],
 
   launch: function() {
 

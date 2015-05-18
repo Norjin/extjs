@@ -1,102 +1,83 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install' ]
-2 info using npm@1.3.10
-3 info using node@v0.10.25
-4 verbose readDependencies using package.json deps
-5 verbose install where, deps [ '/home/sharavaa/Projects/extjs',
-5 verbose install   [ 'matchdep',
-5 verbose install     'grunt',
-5 verbose install     'grunt-shell',
-5 verbose install     'grunt-contrib-sass',
-5 verbose install     'grunt-contrib-stylus',
-5 verbose install     'grunt-contrib-connect',
-5 verbose install     'grunt-contrib-watch',
-5 verbose install     'grunt-contrib-clean',
-5 verbose install     'grunt-contrib-cssmin',
-5 verbose install     'grunt-connect-proxy',
-5 verbose install     'grunt-contrib-copy',
-5 verbose install     'connect-livereload',
-5 verbose install     'grunt-contrib-concat',
-5 verbose install     'grunt-contrib-uglify',
-5 verbose install     'grunt-contrib-jshint',
-5 verbose install     'jshint-stylish',
-5 verbose install     'grunt-jsduck',
-5 verbose install     'grunt-jscs',
-5 verbose install     'grunt-exec',
-5 verbose install     'grunt-notify',
-5 verbose install     'grunt-filerev',
-5 verbose install     'grunt-bump',
-5 verbose install     'grunt-userev' ] ]
-6 info preinstall Extjs_Skeleton@0.0.3
-7 warn package.json sass@0.5.0 No repository field.
-8 verbose readDependencies using package.json deps
-9 verbose already installed skipping matchdep@* /home/sharavaa/Projects/extjs
-10 verbose already installed skipping grunt@* /home/sharavaa/Projects/extjs
-11 verbose already installed skipping grunt-shell@* /home/sharavaa/Projects/extjs
-12 verbose already installed skipping grunt-contrib-sass@* /home/sharavaa/Projects/extjs
-13 verbose already installed skipping grunt-contrib-stylus@* /home/sharavaa/Projects/extjs
-14 verbose already installed skipping grunt-contrib-connect@* /home/sharavaa/Projects/extjs
-15 verbose already installed skipping grunt-contrib-clean@* /home/sharavaa/Projects/extjs
-16 verbose already installed skipping grunt-contrib-watch@* /home/sharavaa/Projects/extjs
-17 verbose already installed skipping grunt-contrib-cssmin@* /home/sharavaa/Projects/extjs
-18 verbose already installed skipping grunt-connect-proxy@* /home/sharavaa/Projects/extjs
-19 verbose already installed skipping grunt-contrib-copy@* /home/sharavaa/Projects/extjs
-20 verbose already installed skipping connect-livereload@* /home/sharavaa/Projects/extjs
-21 verbose already installed skipping grunt-contrib-concat@* /home/sharavaa/Projects/extjs
-22 verbose already installed skipping grunt-contrib-jshint@* /home/sharavaa/Projects/extjs
-23 verbose already installed skipping grunt-contrib-uglify@* /home/sharavaa/Projects/extjs
-24 verbose already installed skipping jshint-stylish@* /home/sharavaa/Projects/extjs
-25 verbose already installed skipping grunt-jsduck@* /home/sharavaa/Projects/extjs
-26 verbose already installed skipping grunt-jscs@* /home/sharavaa/Projects/extjs
-27 verbose already installed skipping grunt-exec@* /home/sharavaa/Projects/extjs
-28 verbose already installed skipping grunt-notify@* /home/sharavaa/Projects/extjs
-29 verbose already installed skipping grunt-filerev@* /home/sharavaa/Projects/extjs
-30 verbose already installed skipping grunt-userev@* /home/sharavaa/Projects/extjs
-31 verbose cache add [ 'grunt-bump@git://github.com/vojtajina/grunt-bump.git#master',
-31 verbose cache add   null ]
-32 verbose cache add name=undefined spec="grunt-bump@git://github.com/vojtajina/grunt-bump.git#master" args=["grunt-bump@git://github.com/vojtajina/grunt-bump.git#master",null]
-33 verbose parsed url { protocol: null,
-33 verbose parsed url   slashes: null,
-33 verbose parsed url   auth: null,
-33 verbose parsed url   host: null,
-33 verbose parsed url   port: null,
-33 verbose parsed url   hostname: null,
-33 verbose parsed url   hash: '#master',
-33 verbose parsed url   search: null,
-33 verbose parsed url   query: null,
-33 verbose parsed url   pathname: 'grunt-bump@git://github.com/vojtajina/grunt-bump.git',
-33 verbose parsed url   path: 'grunt-bump@git://github.com/vojtajina/grunt-bump.git',
-33 verbose parsed url   href: 'grunt-bump@git://github.com/vojtajina/grunt-bump.git#master' }
-34 verbose cache add name="grunt-bump" spec="git://github.com/vojtajina/grunt-bump.git#master" args=["grunt-bump","git://github.com/vojtajina/grunt-bump.git#master"]
-35 verbose parsed url { protocol: 'git:',
-35 verbose parsed url   slashes: true,
-35 verbose parsed url   auth: null,
-35 verbose parsed url   host: 'github.com',
-35 verbose parsed url   port: null,
-35 verbose parsed url   hostname: 'github.com',
-35 verbose parsed url   hash: '#master',
-35 verbose parsed url   search: null,
-35 verbose parsed url   query: null,
-35 verbose parsed url   pathname: '/vojtajina/grunt-bump.git',
-35 verbose parsed url   path: '/vojtajina/grunt-bump.git',
-35 verbose parsed url   href: 'git://github.com/vojtajina/grunt-bump.git#master' }
-36 silly lockFile ea50dfdb--vojtajina-grunt-bump-git-master git://github.com/vojtajina/grunt-bump.git#master
-37 verbose lock git://github.com/vojtajina/grunt-bump.git#master /home/sharavaa/.npm/ea50dfdb--vojtajina-grunt-bump-git-master.lock
-38 verbose addRemoteGit [ 'git://github.com/vojtajina/grunt-bump.git', 'master' ]
-39 silly lockFile 556c661c-hub-com-vojtajina-grunt-bump-git git://github.com/vojtajina/grunt-bump.git
-40 error Error: EACCES, mkdir '/home/sharavaa/.npm/_git-remotes/git-github-com-vojtajina-grunt-bump-git-556c661c'
-40 error  { [Error: EACCES, mkdir '/home/sharavaa/.npm/_git-remotes/git-github-com-vojtajina-grunt-bump-git-556c661c']
-40 error   errno: 3,
-40 error   code: 'EACCES',
-40 error   path: '/home/sharavaa/.npm/_git-remotes/git-github-com-vojtajina-grunt-bump-git-556c661c' }
-41 error Please try running this command again as root/Administrator.
-42 error System Linux 3.13.0-45-generic
-43 error command "/usr/bin/nodejs" "/usr/bin/npm" "install"
-44 error cwd /home/sharavaa/Projects/extjs
-45 error node -v v0.10.25
-46 error npm -v 1.3.10
-47 error path /home/sharavaa/.npm/_git-remotes/git-github-com-vojtajina-grunt-bump-git-556c661c
-48 error code EACCES
-49 error errno 3
-50 error stack Error: EACCES, mkdir '/home/sharavaa/.npm/_git-remotes/git-github-com-vojtajina-grunt-bump-git-556c661c'
-51 verbose exit [ 3, true ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'grunt-dependency' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.37
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'grunt-dependency', null ]
+7 verbose cache add name=undefined spec="grunt-dependency" args=["grunt-dependency",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'grunt-dependency',
+8 verbose parsed url   path: 'grunt-dependency',
+8 verbose parsed url   href: 'grunt-dependency' }
+9 silly lockFile ddcd8092-grunt-dependency grunt-dependency
+10 verbose lock grunt-dependency /home/norjoo/.npm/ddcd8092-grunt-dependency.lock
+11 silly lockFile ddcd8092-grunt-dependency grunt-dependency
+12 silly lockFile ddcd8092-grunt-dependency grunt-dependency
+13 verbose addNamed [ 'grunt-dependency', '' ]
+14 verbose addNamed [ null, '*' ]
+15 silly lockFile 604fb197-grunt-dependency grunt-dependency@
+16 verbose lock grunt-dependency@ /home/norjoo/.npm/604fb197-grunt-dependency.lock
+17 silly addNameRange { name: 'grunt-dependency', range: '*', hasData: false }
+18 verbose request where is /grunt-dependency
+19 verbose request registry https://registry.npmjs.org/
+20 verbose request id 6ab9012788d1b938
+21 verbose url raw /grunt-dependency
+22 verbose url resolving [ 'https://registry.npmjs.org/', './grunt-dependency' ]
+23 verbose url resolved https://registry.npmjs.org/grunt-dependency
+24 verbose request where is https://registry.npmjs.org/grunt-dependency
+25 info trying registry request attempt 1 at 11:34:10
+26 http GET https://registry.npmjs.org/grunt-dependency
+27 http 404 https://registry.npmjs.org/grunt-dependency
+28 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+28 verbose headers   'content-type': 'application/json',
+28 verbose headers   'cache-control': 'max-age=0',
+28 verbose headers   'content-length': '51',
+28 verbose headers   'accept-ranges': 'bytes',
+28 verbose headers   date: 'Fri, 15 May 2015 02:34:11 GMT',
+28 verbose headers   via: '1.1 varnish',
+28 verbose headers   age: '0',
+28 verbose headers   connection: 'keep-alive',
+28 verbose headers   'x-served-by': 'cache-sjc3129-SJC',
+28 verbose headers   'x-cache': 'MISS',
+28 verbose headers   'x-cache-hits': '0',
+28 verbose headers   'x-timer': 'S1431657250.993343,VS0,VE40' }
+29 silly registry.get cb [ 404,
+29 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+29 silly registry.get     'content-type': 'application/json',
+29 silly registry.get     'cache-control': 'max-age=0',
+29 silly registry.get     'content-length': '51',
+29 silly registry.get     'accept-ranges': 'bytes',
+29 silly registry.get     date: 'Fri, 15 May 2015 02:34:11 GMT',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     age: '0',
+29 silly registry.get     connection: 'keep-alive',
+29 silly registry.get     'x-served-by': 'cache-sjc3129-SJC',
+29 silly registry.get     'x-cache': 'MISS',
+29 silly registry.get     'x-cache-hits': '0',
+29 silly registry.get     'x-timer': 'S1431657250.993343,VS0,VE40' } ]
+30 silly lockFile 604fb197-grunt-dependency grunt-dependency@
+31 silly lockFile 604fb197-grunt-dependency grunt-dependency@
+32 error 404 404 Not Found: grunt-dependency
+32 error 404
+32 error 404 'grunt-dependency' is not in the npm registry.
+32 error 404 You should bug the author to publish it
+32 error 404 It was specified as a dependency of 'Extjs_Skeleton'
+32 error 404
+32 error 404 Note that you can also install from a
+32 error 404 tarball, folder, or http url, or git url.
+33 error System Linux 3.13.0-52-generic
+34 error command "/usr/bin/node" "/usr/bin/npm" "install" "grunt-dependency"
+35 error cwd /home/norjoo/Projects/extjs
+36 error node -v v0.10.37
+37 error npm -v 1.4.28
+38 error code E404
+39 verbose exit [ 1, true ]
